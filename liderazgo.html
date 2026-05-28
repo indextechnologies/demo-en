@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liderazgo — Encuentro Nacional</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --orange: #E8620A; --orange-pale: #FFF3E8; --orange-dark: #C44E00;
+      --black: #0D0D0D; --gray: #6B7280; --gray-light: #F8F9FA; --border: #EBEBEB;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--black); background: #fff; overflow-x: hidden; }
+
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 1000;
+      padding: 14px 56px; display: flex; align-items: center; justify-content: space-between;
+      background: rgba(255,255,255,0.94); backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(232,98,10,0.08); transition: box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow: 0 2px 24px rgba(0,0,0,0.07); }
+    .nav-brand { display: flex; align-items: center; gap: 11px; text-decoration: none; }
+    .nav-brand img { height: 40px; }
+    .nav-brand-text { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--black); line-height: 1.2; }
+    .nav-brand-text span { display: block; font-size: 0.6rem; font-family: 'Inter', sans-serif; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--orange); }
+    .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+    .nav-links a { text-decoration: none; font-size: 0.84rem; font-weight: 500; color: var(--black); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--orange); }
+    .nav-links a.active { color: var(--orange); }
+    .nav-cta { background: var(--orange) !important; color: white !important; padding: 9px 22px; border-radius: 7px; }
+    .nav-cta:hover { background: var(--orange-dark) !important; }
+
+    /* PAGE HERO */
+    .page-hero {
+      min-height: 52vh; display: flex; align-items: flex-end;
+      background: var(--orange-pale); position: relative; overflow: hidden; padding-bottom: 72px;
+    }
+    .page-hero-deco {
+      position: absolute; right: -60px; top: -80px; width: 560px; height: 560px;
+      border-radius: 50%; background: rgba(232,98,10,0.1);
+    }
+    .page-hero-deco2 {
+      position: absolute; right: 100px; bottom: -100px; width: 300px; height: 300px;
+      border-radius: 50%; background: rgba(232,98,10,0.06);
+    }
+    .page-hero-content { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; padding: 0 56px; padding-top: 120px; }
+    .page-hero-eyebrow { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; }
+    .page-hero-title { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 900; color: var(--black); line-height: 1.08; letter-spacing: -0.02em; margin-bottom: 24px; }
+    .page-hero-title em { font-style: italic; color: var(--orange); }
+    .page-hero-desc { font-size: 1.05rem; color: var(--gray); max-width: 560px; line-height: 1.72; }
+
+    .breadcrumb { padding: 20px 56px; max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--gray); }
+    .breadcrumb a { color: var(--gray); text-decoration: none; transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--orange); }
+
+    .content-wrap { max-width: 1200px; margin: 0 auto; padding: 0 56px 120px; }
+
+    .section-header { margin-bottom: 52px; }
+    .eyebrow { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; }
+    .heading { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3.2vw, 2.6rem); font-weight: 700; line-height: 1.2; margin-bottom: 16px; }
+    .subtext { font-size: 0.97rem; color: var(--gray); line-height: 1.74; max-width: 620px; }
+
+    /* FOUNDER CARD */
+    #fundador {
+      background: linear-gradient(135deg, #0D0D0D 0%, #1a0a00 100%);
+      border-radius: 24px; padding: 64px; margin-bottom: 96px;
+      display: grid; grid-template-columns: 1fr 2fr; gap: 64px; align-items: center;
+      position: relative; overflow: hidden;
+    }
+    #fundador::before {
+      content: ''; position: absolute; right: -100px; top: -100px;
+      width: 400px; height: 400px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(232,98,10,0.18) 0%, transparent 70%);
+    }
+    .founder-avatar-wrap { text-align: center; position: relative; z-index: 1; }
+    .founder-avatar {
+      width: 160px; height: 160px; border-radius: 50%; margin: 0 auto 20px;
+      background: var(--orange); display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; color: white;
+      box-shadow: 0 0 0 8px rgba(232,98,10,0.2);
+    }
+    .founder-badge { display: inline-block; background: var(--orange); color: white; padding: 6px 16px; border-radius: 20px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+    .founder-info { position: relative; z-index: 1; }
+    .founder-info h2 { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; color: white; margin-bottom: 8px; }
+    .founder-info .role { font-size: 0.8rem; font-weight: 600; color: var(--orange); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 24px; }
+    .founder-info p { font-size: 0.96rem; color: rgba(255,255,255,0.7); line-height: 1.78; margin-bottom: 18px; }
+    .founder-info p strong { color: white; }
+    .founder-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+    .founder-tag { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.7); padding: 6px 14px; border-radius: 20px; font-size: 0.78rem; border: 1px solid rgba(255,255,255,0.12); }
+
+    /* PRESIDENTS TIMELINE */
+    .presidents-section { margin-bottom: 96px; }
+    .presidents-list { display: flex; flex-direction: column; gap: 0; position: relative; }
+    .presidents-list::before {
+      content: ''; position: absolute; left: 120px; top: 0; bottom: 0;
+      width: 1px; background: linear-gradient(to bottom, var(--orange), rgba(232,98,10,0.1));
+    }
+    .president-row {
+      display: grid; grid-template-columns: 120px 1fr; gap: 0;
+      padding: 36px 0; border-bottom: 1px solid var(--border); transition: all 0.2s;
+    }
+    .president-row:last-child { border-bottom: none; }
+    .president-row:hover .pres-card { box-shadow: 0 8px 28px rgba(0,0,0,0.07); }
+    .pres-period {
+      text-align: center; padding-right: 32px; padding-top: 8px; position: relative; z-index: 1;
+    }
+    .pres-dot {
+      width: 40px; height: 40px; border-radius: 50%; background: white; border: 2px solid var(--orange);
+      display: flex; align-items: center; justify-content: center; margin: 0 auto 10px;
+      font-size: 0.65rem; font-weight: 700; color: var(--orange);
+    }
+    .pres-dot.filled { background: var(--orange); color: white; border-color: var(--orange); }
+    .pres-years { font-size: 0.72rem; color: var(--gray); font-weight: 600; text-align: center; line-height: 1.4; }
+    .pres-card { background: var(--gray-light); border-radius: 16px; padding: 28px 32px; margin-left: 20px; }
+    .pres-name { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; }
+    .pres-role { font-size: 0.72rem; font-weight: 700; color: var(--orange); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
+    .pres-desc { font-size: 0.88rem; color: var(--gray); line-height: 1.65; }
+
+    /* ALLIES SECTION */
+    .allies-section { margin-bottom: 96px; }
+    .allies-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .ally-card { border: 1px solid var(--border); border-radius: 16px; padding: 32px 26px; transition: all 0.22s; }
+    .ally-card:hover { border-color: var(--orange); box-shadow: 0 8px 28px rgba(232,98,10,0.1); transform: translateY(-3px); }
+    .ally-avatar { width: 72px; height: 72px; border-radius: 50%; background: var(--orange-pale); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--orange); margin-bottom: 16px; }
+    .ally-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+    .ally-role { font-size: 0.7rem; font-weight: 700; color: var(--orange); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+    .ally-context { font-size: 0.78rem; color: var(--gray); margin-bottom: 12px; font-style: italic; }
+    .ally-desc { font-size: 0.86rem; color: var(--gray); line-height: 1.62; }
+
+    /* CURRENT SECTION */
+    #actual { background: var(--orange-pale); border-radius: 24px; padding: 64px; margin-bottom: 96px; }
+    #actual h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; margin-bottom: 8px; }
+    #actual .section-desc { color: var(--gray); font-size: 0.95rem; margin-bottom: 48px; }
+    .current-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .curr-card { background: white; border-radius: 16px; padding: 32px 28px; display: flex; align-items: flex-start; gap: 20px; }
+    .curr-avatar { width: 64px; height: 64px; border-radius: 50%; background: var(--orange-pale); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--orange); flex-shrink: 0; }
+    .curr-name { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; margin-bottom: 4px; }
+    .curr-role { font-size: 0.7rem; font-weight: 700; color: var(--orange); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
+    .curr-desc { font-size: 0.85rem; color: var(--gray); line-height: 1.62; }
+
+    .page-nav { background: var(--gray-light); border-top: 1px solid var(--border); padding: 48px 56px; display: flex; justify-content: space-between; align-items: center; }
+    .page-nav a { color: var(--orange); text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: opacity 0.2s; }
+    .page-nav a:hover { opacity: 0.7; }
+
+    footer { background: #080808; color: white; padding: 64px 56px 32px; }
+    .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .footer-brand img { height: 48px; margin-bottom: 16px; }
+    .footer-brand p { font-size: 0.83rem; color: #6B7280; line-height: 1.7; max-width: 240px; }
+    .footer-col h4 { font-size: 0.67rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--orange); margin-bottom: 18px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a { color: #6B7280; text-decoration: none; font-size: 0.83rem; transition: color 0.2s; }
+    .footer-col a:hover { color: white; }
+    .footer-bottom { max-width: 1200px; margin: 28px auto 0; display: flex; justify-content: space-between; font-size: 0.77rem; color: #4B5563; }
+
+    .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .fade-up.delay-1 { transition-delay: 0.1s; }
+    .fade-up.delay-2 { transition-delay: 0.2s; }
+    .fade-up.delay-3 { transition-delay: 0.3s; }
+
+    @media (max-width: 1024px) {
+      nav { padding: 14px 24px; }
+      .page-hero-content, .breadcrumb, .content-wrap { padding-left: 24px; padding-right: 24px; }
+      #fundador { grid-template-columns: 1fr; gap: 36px; padding: 40px; }
+      .current-grid { grid-template-columns: 1fr; }
+      .allies-grid { grid-template-columns: 1fr 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .page-hero-content, .breadcrumb, .content-wrap { padding-left: 20px; padding-right: 20px; }
+      .presidents-list::before { display: none; }
+      .president-row { grid-template-columns: 1fr; }
+      .pres-period { display: flex; align-items: center; gap: 12px; padding: 0 0 12px; }
+      .pres-dot { margin: 0; }
+      .pres-card { margin-left: 0; }
+      .allies-grid { grid-template-columns: 1fr; }
+      #actual { padding: 36px 24px; }
+      .footer-grid { grid-template-columns: 1fr; gap: 28px; padding: 0 20px 36px; }
+      footer { padding: 56px 0 28px; }
+      .footer-bottom { flex-direction: column; gap: 6px; text-align: center; padding: 0 20px; }
+      .page-nav { padding: 32px 20px; flex-direction: column; gap: 16px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-brand">
+    <img src="EN.png" alt="EN">
+    <div class="nav-brand-text">
+      Encuentro Nacional
+      <span>Partido Político · Paraguay</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="historia.html">Historia</a></li>
+    <li><a href="liderazgo.html" class="active">Liderazgo</a></li>
+    <li><a href="vision.html">Visión</a></li>
+    <li><a href="index.html#alianzas">Alianzas</a></li>
+    <li><a href="index.html#contacto" class="nav-cta">Contacto</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-deco"></div>
+  <div class="page-hero-deco2"></div>
+  <div class="page-hero-content">
+    <div class="page-hero-eyebrow">Las Personas · 1991 — Presente</div>
+    <h1 class="page-hero-title">Las voces que<br>guiaron el <em>Encuentro</em></h1>
+    <p class="page-hero-desc">Fundadores, presidentes, aliados y líderes actuales. Estas son las personas que construyeron el Partido Encuentro Nacional y que hoy continúan su lucha por un Paraguay más justo.</p>
+  </div>
+</div>
+
+<div class="breadcrumb">
+  <a href="index.html">Inicio</a>
+  <span style="color:#CBD5E1">›</span>
+  <span style="color: var(--black);">Liderazgo</span>
+</div>
+
+<div class="content-wrap">
+
+  <!-- FUNDADOR -->
+  <div id="fundador" class="fade-up">
+    <div class="founder-avatar-wrap">
+      <div class="founder-avatar">GC</div>
+      <div class="founder-badge">Fundador del PEN</div>
+    </div>
+    <div class="founder-info">
+      <h2>Dr. Guillermo Caballero Vargas</h2>
+      <p class="role">Fundador & Primer Presidente — 1991–1996</p>
+      <p>El Dr. <strong>Guillermo Caballero Vargas</strong> fue el visionario detrás del Partido Encuentro Nacional. En plena transición democrática paraguaya, en 1991, fundó el Movimiento Encuentro Nacional con la convicción de que Paraguay necesitaba una nueva fuerza política comprometida con la justicia social y la democracia plena.</p>
+      <p>Bajo su liderazgo, el movimiento se transformó en partido político el <strong>25 de octubre de 1992</strong> y obtuvo un histórico <strong>23.14% en las elecciones presidenciales de 1993</strong>, demostrando que la ciudadanía ansiaba una alternativa al bipartidismo tradicional.</p>
+      <p>Caballero Vargas lideró el partido hasta <strong>1996</strong>, dejando bases sólidas de identidad ideológica y estructura organizacional. Su legado permanece en cada acción del PEN: la búsqueda de una sociedad libre, justa y fraterna.</p>
+      <div class="founder-tags">
+        <span class="founder-tag">Centro-izquierda</span>
+        <span class="founder-tag">Justicia Social</span>
+        <span class="founder-tag">Democracia Social</span>
+        <span class="founder-tag">Transición Democrática</span>
+        <span class="founder-tag">Paraguay 1991–1996</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRESIDENTES -->
+  <div class="presidents-section" id="historico">
+    <div class="section-header fade-up">
+      <p class="eyebrow">Conducción del Partido</p>
+      <h2 class="heading">Presidentes del PEN a través del tiempo</h2>
+      <p class="subtext">Desde su fundación, el Partido Encuentro Nacional ha contado con líderes comprometidos que garantizaron la continuidad de su misión democrática y progresista.</p>
+    </div>
+
+    <div class="presidents-list">
+
+      <div class="president-row fade-up">
+        <div class="pres-period">
+          <div class="pres-dot filled">GC</div>
+          <div class="pres-years">1991<br>—<br>1996</div>
+        </div>
+        <div class="pres-card">
+          <div class="pres-name">Dr. Guillermo Caballero Vargas</div>
+          <div class="pres-role">Fundador y Primer Presidente</div>
+          <p class="pres-desc">Fundó el Movimiento Encuentro Nacional en 1991 y formalizó el partido el 25 de octubre de 1992. Condujo al PEN a su primera gran elección con 23.14% en 1993. Estableció los cimientos ideológicos y organizativos que perduran hasta hoy. Su visión fue simple pero poderosa: un encuentro de todos los paraguayos en torno a la justicia social.</p>
+        </div>
+      </div>
+
+      <div class="president-row fade-up">
+        <div class="pres-period">
+          <div class="pres-dot filled">CF</div>
+          <div class="pres-years">1996<br>—<br>1999</div>
+        </div>
+        <div class="pres-card">
+          <div class="pres-name">Carlos Filizzola</div>
+          <div class="pres-role">Presidente del Partido</div>
+          <p class="pres-desc">Asumió la conducción del partido en 1996, consolidando su estructura interna y profundizando su identidad socialdemócrata. Bajo su presidencia, el PEN mantuvo la alianza con el PLRA y apoyó la candidatura de Domingo Laíno en 1998, logrando el segundo lugar en las elecciones presidenciales.</p>
+        </div>
+      </div>
+
+      <div class="president-row fade-up">
+        <div class="pres-period">
+          <div class="pres-dot">FCP</div>
+          <div class="pres-years">2009<br>—<br>2023</div>
+        </div>
+        <div class="pres-card">
+          <div class="pres-name">Fernando Camacho Paredes</div>
+          <div class="pres-role">Presidente del Partido — 14 años</div>
+          <p class="pres-desc">Condujo el partido durante catorce años, el período de presidencia más extenso en la historia del PEN. Durante su gestión, el partido participó en el Frente Guasú (2008) que llevó a Fernando Lugo al poder, integró Paraguay Alegre (2013) con Efraín Alegre, y obtuvo dos bancas parlamentarias a través de la coalición GANAR en 2018. Garantizó la continuidad del partido como fuerza opositora relevante.</p>
+        </div>
+      </div>
+
+      <div class="president-row fade-up">
+        <div class="pres-period">
+          <div class="pres-dot filled">JT</div>
+          <div class="pres-years">2023<br>—<br>hoy</div>
+        </div>
+        <div class="pres-card">
+          <div class="pres-name">José Luis Torales</div>
+          <div class="pres-role">Presidente Nacional Actual</div>
+          <p class="pres-desc">Asumió la presidencia del partido en 2023, liderando la participación bajo la Alianza Encuentro Nacional junto al partido Hagamos. Actualmente conduce al PEN como parte de la Concertación Nacional, la gran coalición opositora. Bajo su gestión, el partido cuenta con 1 senador, 1 diputado y 58 concejales municipales en todo el país.</p>
+        </div>
+      </div>
+
+      <div class="president-row fade-up">
+        <div class="pres-period">
+          <div class="pres-dot filled">GP</div>
+          <div class="pres-years">Reciente</div>
+        </div>
+        <div class="pres-card">
+          <div class="pres-name">Lic. Gloria Portillo</div>
+          <div class="pres-role">Presidenta del Partido</div>
+          <p class="pres-desc">Formó parte de la conducción reciente del partido, representando la apertura del PEN a nuevos liderazgos y a la participación protagónica de la mujer en la política paraguaya. Su liderazgo reafirma el compromiso del partido con la inclusión y la diversidad en la representación política.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ALIADOS -->
+  <div class="allies-section" id="aliados">
+    <div class="section-header fade-up">
+      <p class="eyebrow">Aliados Estratégicos</p>
+      <h2 class="heading">Figuras que acompañaron al PEN</h2>
+      <p class="subtext">A través de las distintas alianzas construidas por el Partido Encuentro Nacional, estas figuras históricas compartieron el camino hacia un Paraguay más democrático.</p>
+    </div>
+    <div class="allies-grid">
+      <div class="ally-card fade-up">
+        <div class="ally-avatar">DL</div>
+        <div class="ally-name">Domingo Laíno</div>
+        <div class="ally-role">Aliado histórico · PLRA</div>
+        <div class="ally-context">Candidato presidencial apoyado · 1998</div>
+        <p class="ally-desc">Histórico dirigente del Partido Liberal Radical Auténtico (PLRA) y referente de la oposición democrática paraguaya. El PEN selló alianza con el PLRA en 1998 para apoyar su candidatura presidencial, logrando el segundo lugar en las elecciones. Una colaboración que marcó una nueva etapa en la construcción de la oposición.</p>
+      </div>
+      <div class="ally-card fade-up delay-1">
+        <div class="ally-avatar">FL</div>
+        <div class="ally-name">Fernando Lugo</div>
+        <div class="ally-role">Presidente de la República</div>
+        <div class="ally-context">Candidato apoyado · Frente Guasú · 2008</div>
+        <p class="ally-desc">Ex-obispo que encarnó la promesa del cambio político en Paraguay. El PEN integró el Frente Guasú que lo llevó a la presidencia en 2008, poniendo fin a más de 60 años de dominio del Partido Colorado. La victoria de Lugo fue el momento cumbre del PEN como articulador del cambio histórico.</p>
+      </div>
+      <div class="ally-card fade-up delay-2">
+        <div class="ally-avatar">EA</div>
+        <div class="ally-name">Efraín Alegre</div>
+        <div class="ally-role">Candidato presidencial</div>
+        <div class="ally-context">Paraguay Alegre · 2013 y 2023</div>
+        <p class="ally-desc">Presidente del PLRA y candidato presidencial apoyado por el PEN a través de la alianza Paraguay Alegre en 2013. También representó a la oposición en 2023. La colaboración entre el PEN y Alegre refleja la estrategia del partido de construir frentes amplios capaces de desafiar al coloradismo.</p>
+      </div>
+      <div class="ally-card fade-up">
+        <div class="ally-avatar">H</div>
+        <div class="ally-name">Partido Hagamos</div>
+        <div class="ally-role">Aliado actual</div>
+        <div class="ally-context">Alianza Encuentro Nacional · 2023</div>
+        <p class="ally-desc">Partido político paraguayo que integró junto al PEN la Alianza Encuentro Nacional en las elecciones de 2023. La alianza representa la continuidad de la vocación unitaria del PEN y su capacidad para construir coaliciones progresistas en el nuevo escenario político paraguayo.</p>
+      </div>
+      <div class="ally-card fade-up delay-1">
+        <div class="ally-avatar">CN</div>
+        <div class="ally-name">Concertación Nacional</div>
+        <div class="ally-role">Coalición opositora actual</div>
+        <div class="ally-context">Integrada por el PEN · Presente</div>
+        <p class="ally-desc">La gran coalición de la oposición democrática paraguaya. El PEN es miembro activo de esta alianza que busca ofrecer una alternativa real al Partido Colorado en las próximas elecciones. Representa el proyecto político más ambicioso de unidad opositora en Paraguay.</p>
+      </div>
+      <div class="ally-card fade-up delay-2">
+        <div class="ally-avatar">FG</div>
+        <div class="ally-name">Frente Guasú</div>
+        <div class="ally-role">Coalición histórica</div>
+        <div class="ally-context">Elecciones 2008 · Victoria histórica</div>
+        <p class="ally-desc">La gran coalición de la izquierda y el progresismo paraguayo que llevó a Fernando Lugo a la presidencia en 2008. El PEN fue parte esencial de esta alianza histórica, que demostró la viabilidad de unir a las fuerzas democráticas para transformar la política paraguaya.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIDERAZGO ACTUAL -->
+  <div id="actual" class="fade-up">
+    <p class="eyebrow">2023 — Presente</p>
+    <h2 style="font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:700; margin-bottom:8px;">Conducción Actual del PEN</h2>
+    <p class="section-desc">El equipo que hoy conduce el Partido Encuentro Nacional hacia las próximas elecciones, dentro de la Concertación Nacional.</p>
+    <div class="current-grid">
+      <div class="curr-card">
+        <div class="curr-avatar">JT</div>
+        <div>
+          <div class="curr-name">José Luis Torales</div>
+          <div class="curr-role">Presidente Nacional</div>
+          <p class="curr-desc">Asumió la presidencia del partido en 2023, conduciendo al PEN en las elecciones generales bajo la Alianza Encuentro Nacional con Hagamos. Actualmente lidera al partido dentro de la Concertación Nacional.</p>
+        </div>
+      </div>
+      <div class="curr-card">
+        <div class="curr-avatar">GP</div>
+        <div>
+          <div class="curr-name">Lic. Gloria Portillo</div>
+          <div class="curr-role">Presidenta del Partido</div>
+          <p class="curr-desc">Referente de la conducción reciente del PEN, representa la apertura del partido a nuevos liderazgos y la participación femenina en la política paraguaya en todos los niveles.</p>
+        </div>
+      </div>
+    </div>
+    <div style="background: rgba(232,98,10,0.08); border-radius: 12px; padding: 24px 28px; margin-top: 28px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; text-align: center;">
+      <div>
+        <div style="font-family:'Playfair Display',serif; font-size:2rem; font-weight:700; color:var(--orange);">1</div>
+        <div style="font-size:0.78rem; color:var(--gray); font-weight:600; text-transform:uppercase; letter-spacing:0.06em; margin-top:4px;">Senador</div>
+      </div>
+      <div>
+        <div style="font-family:'Playfair Display',serif; font-size:2rem; font-weight:700; color:var(--orange);">1</div>
+        <div style="font-size:0.78rem; color:var(--gray); font-weight:600; text-transform:uppercase; letter-spacing:0.06em; margin-top:4px;">Diputado</div>
+      </div>
+      <div>
+        <div style="font-family:'Playfair Display',serif; font-size:2rem; font-weight:700; color:var(--orange);">58</div>
+        <div style="font-size:0.78rem; color:var(--gray); font-weight:600; text-transform:uppercase; letter-spacing:0.06em; margin-top:4px;">Concejales Municipales</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="page-nav">
+  <a href="historia.html">← Historia del partido</a>
+  <a href="vision.html">Visión e Ideología →</a>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="EN.png" alt="Encuentro Nacional">
+      <p>Partido Encuentro Nacional de Paraguay. Construyendo un Estado social y democrático de derecho desde 1992.</p>
+    </div>
+    <div class="footer-col">
+      <h4>El Partido</h4>
+      <ul>
+        <li><a href="index.html#sobre">Quiénes Somos</a></li>
+        <li><a href="historia.html">Historia</a></li>
+        <li><a href="vision.html">Visión</a></li>
+        <li><a href="index.html#alianzas">Alianzas</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Personas</h4>
+      <ul>
+        <li><a href="#fundador">Fundador</a></li>
+        <li><a href="#historico">Presidentes</a></li>
+        <li><a href="#aliados">Aliados</a></li>
+        <li><a href="#actual">Conducción Actual</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contacto</h4>
+      <ul>
+        <li><a href="tel:+59521213528">+595 21 213 528</a></li>
+        <li><a href="index.html#contacto">Sede Asunción</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Partido Encuentro Nacional — Paraguay</span>
+    <span>Lun–Vie 07:00–19:00 · Sáb 08:00–12:00</span>
+  </div>
+</footer>
+
+<script>
+  var navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', function() { navbar.classList.toggle('scrolled', window.scrollY > 40); });
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-up').forEach(function(el) { observer.observe(el); });
+</script>
+</body>
+</html>

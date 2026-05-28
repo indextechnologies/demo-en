@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visión — Encuentro Nacional</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --orange: #E8620A; --orange-pale: #FFF3E8; --orange-dark: #C44E00;
+      --black: #0D0D0D; --gray: #6B7280; --gray-light: #F8F9FA; --border: #EBEBEB;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--black); background: #fff; overflow-x: hidden; }
+
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 1000;
+      padding: 14px 56px; display: flex; align-items: center; justify-content: space-between;
+      background: rgba(255,255,255,0.94); backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(232,98,10,0.08); transition: box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow: 0 2px 24px rgba(0,0,0,0.07); }
+    .nav-brand { display: flex; align-items: center; gap: 11px; text-decoration: none; }
+    .nav-brand img { height: 40px; }
+    .nav-brand-text { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--black); line-height: 1.2; }
+    .nav-brand-text span { display: block; font-size: 0.6rem; font-family: 'Inter', sans-serif; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--orange); }
+    .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+    .nav-links a { text-decoration: none; font-size: 0.84rem; font-weight: 500; color: var(--black); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--orange); }
+    .nav-links a.active { color: var(--orange); }
+    .nav-cta { background: var(--orange) !important; color: white !important; padding: 9px 22px; border-radius: 7px; }
+
+    /* PAGE HERO */
+    .page-hero {
+      min-height: 58vh; display: flex; align-items: flex-end;
+      background: white; position: relative; overflow: hidden; padding-bottom: 80px;
+    }
+    .hero-accent-1 { position: absolute; left: -120px; bottom: -80px; width: 500px; height: 500px; border-radius: 50%; background: var(--orange-pale); }
+    .hero-accent-2 { position: absolute; right: 10%; top: 20%; width: 48px; height: 48px; border-radius: 50%; background: var(--orange); opacity: 0.15; }
+    .hero-accent-3 { position: absolute; right: 20%; top: 60%; width: 20px; height: 20px; border-radius: 50%; background: var(--orange); opacity: 0.25; }
+    .hero-accent-4 { position: absolute; right: 5%; top: 40%; width: 200px; height: 200px; border-radius: 50%; background: var(--orange-pale); opacity: 0.5; }
+    .page-hero-content { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; padding: 0 56px; padding-top: 130px; }
+    .page-hero-eyebrow { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; }
+    .page-hero-title { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 5.5vw, 5rem); font-weight: 900; color: var(--black); line-height: 1.06; letter-spacing: -0.02em; margin-bottom: 28px; max-width: 700px; }
+    .page-hero-title em { font-style: italic; color: var(--orange); }
+    .page-hero-desc { font-size: 1.05rem; color: var(--gray); max-width: 540px; line-height: 1.72; }
+
+    .breadcrumb { padding: 20px 56px; max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--gray); }
+    .breadcrumb a { color: var(--gray); text-decoration: none; transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--orange); }
+
+    .content-wrap { max-width: 1200px; margin: 0 auto; padding: 0 56px 120px; }
+
+    .eyebrow { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; }
+    .heading { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3.2vw, 2.6rem); font-weight: 700; line-height: 1.2; margin-bottom: 16px; }
+    .subtext { font-size: 0.97rem; color: var(--gray); line-height: 1.74; max-width: 620px; }
+
+    /* MANIFESTO */
+    .manifesto {
+      background: linear-gradient(135deg, #0D0D0D 0%, #1a0800 100%);
+      border-radius: 24px; padding: 72px 80px; margin-bottom: 96px; position: relative; overflow: hidden;
+    }
+    .manifesto::before {
+      content: ''; position: absolute; right: -80px; top: -80px;
+      width: 400px; height: 400px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(232,98,10,0.2) 0%, transparent 70%);
+    }
+    .manifesto-quote {
+      font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-style: italic; color: white; line-height: 1.38; max-width: 760px;
+      position: relative; z-index: 1; margin-bottom: 32px;
+    }
+    .manifesto-quote em { color: var(--orange); font-style: normal; }
+    .manifesto-attr { font-size: 0.82rem; color: rgba(255,255,255,0.5); letter-spacing: 0.06em; position: relative; z-index: 1; }
+    .manifesto-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 36px; position: relative; z-index: 1; }
+    .m-tag { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.65); padding: 7px 16px; border-radius: 20px; font-size: 0.8rem; border: 1px solid rgba(255,255,255,0.1); }
+
+    /* IDEOLOGY SECTION */
+    .ideology-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; margin-bottom: 96px; }
+    .ideo-main h2 { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; margin-bottom: 24px; }
+    .ideo-main p { font-size: 0.97rem; color: var(--gray); line-height: 1.8; margin-bottom: 16px; }
+    .ideo-main strong { color: var(--black); }
+    .ideo-spectrum { background: var(--gray-light); border-radius: 16px; padding: 32px; }
+    .ideo-spectrum h4 { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; margin-bottom: 24px; }
+    .spectrum-bar { height: 8px; background: linear-gradient(to right, #1a5276, #2980b9, #27ae60, #e8620a, #c0392b); border-radius: 4px; position: relative; margin-bottom: 12px; }
+    .spectrum-marker { position: absolute; top: -6px; left: 28%; width: 20px; height: 20px; border-radius: 50%; background: var(--orange); border: 3px solid white; box-shadow: 0 2px 8px rgba(232,98,10,0.4); }
+    .spectrum-labels { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--gray); font-weight: 500; margin-bottom: 24px; }
+    .ideo-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+    .ideo-badge { background: var(--orange-pale); color: var(--orange); padding: 6px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; }
+    .ideo-badge.dark { background: var(--black); color: white; }
+
+    /* VALUES DEEP DIVE */
+    .values-deep { margin-bottom: 96px; }
+    .vd-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 52px; }
+    .vd-card { display: grid; grid-template-columns: auto 1fr; gap: 20px; align-items: start; padding: 28px; border: 1px solid var(--border); border-radius: 16px; transition: all 0.22s; }
+    .vd-card:hover { border-color: var(--orange); box-shadow: 0 8px 28px rgba(232,98,10,0.1); }
+    .vd-num { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 900; color: var(--orange); opacity: 0.25; line-height: 1; }
+    .vd-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; }
+    .vd-text { font-size: 0.87rem; color: var(--gray); line-height: 1.68; }
+
+    /* PROPOSALS */
+    .proposals { background: var(--gray-light); border-radius: 24px; padding: 64px; margin-bottom: 96px; }
+    .proposals h2 { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
+    .proposals-desc { color: var(--gray); font-size: 0.95rem; margin-bottom: 52px; max-width: 580px; line-height: 1.7; }
+    .prop-areas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .prop-area { background: white; border-radius: 14px; padding: 28px 24px; }
+    .prop-icon { font-size: 1.5rem; margin-bottom: 12px; }
+    .prop-title { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; margin-bottom: 12px; }
+    .prop-list { list-style: none; }
+    .prop-list li { font-size: 0.84rem; color: var(--gray); line-height: 1.6; padding: 5px 0; border-bottom: 1px solid #F5F5F5; display: flex; gap: 8px; }
+    .prop-list li:last-child { border-bottom: none; }
+    .prop-list li::before { content: '·'; color: var(--orange); font-weight: 900; }
+
+    /* POSITIONING */
+    .positioning { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 96px; }
+    .pos-card { border-radius: 16px; padding: 36px 32px; }
+    .pos-card.light { background: var(--orange-pale); }
+    .pos-card.dark { background: var(--black); }
+    .pos-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 16px; }
+    .pos-card.dark .pos-title { color: white; }
+    .pos-item { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 14px; }
+    .pos-item .check { width: 22px; height: 22px; border-radius: 50%; background: var(--orange); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: white; flex-shrink: 0; }
+    .pos-item .pos-text { font-size: 0.88rem; color: var(--gray); line-height: 1.55; }
+    .pos-card.dark .pos-text { color: rgba(255,255,255,0.65); }
+
+    .cta-box { background: linear-gradient(135deg, var(--orange) 0%, #BF4800 100%); border-radius: 24px; padding: 64px; text-align: center; }
+    .cta-box h2 { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: white; margin-bottom: 16px; }
+    .cta-box p { color: rgba(255,255,255,0.78); font-size: 0.97rem; line-height: 1.7; max-width: 480px; margin: 0 auto 36px; }
+    .btn { display: inline-block; padding: 13px 32px; border-radius: 8px; font-weight: 600; font-size: 0.88rem; text-decoration: none; transition: all 0.22s; }
+    .btn-white { background: white; color: var(--orange); }
+    .btn-white:hover { background: #FFF3E8; }
+    .btn-ghost { background: transparent; color: white; border: 1.5px solid rgba(255,255,255,0.4); margin-left: 12px; }
+    .btn-ghost:hover { border-color: white; }
+
+    .page-nav { background: var(--gray-light); border-top: 1px solid var(--border); padding: 48px 56px; display: flex; justify-content: space-between; align-items: center; }
+    .page-nav a { color: var(--orange); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+
+    footer { background: #080808; color: white; padding: 64px 56px 32px; }
+    .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .footer-brand img { height: 48px; margin-bottom: 16px; }
+    .footer-brand p { font-size: 0.83rem; color: #6B7280; line-height: 1.7; max-width: 240px; }
+    .footer-col h4 { font-size: 0.67rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--orange); margin-bottom: 18px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a { color: #6B7280; text-decoration: none; font-size: 0.83rem; transition: color 0.2s; }
+    .footer-col a:hover { color: white; }
+    .footer-bottom { max-width: 1200px; margin: 28px auto 0; display: flex; justify-content: space-between; font-size: 0.77rem; color: #4B5563; }
+
+    .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .fade-up.delay-1 { transition-delay: 0.1s; }
+    .fade-up.delay-2 { transition-delay: 0.2s; }
+    .fade-up.delay-3 { transition-delay: 0.3s; }
+
+    @media (max-width: 1024px) {
+      nav { padding: 14px 24px; }
+      .page-hero-content, .breadcrumb, .content-wrap { padding-left: 24px; padding-right: 24px; }
+      .manifesto { padding: 48px 40px; }
+      .ideology-grid { grid-template-columns: 1fr; }
+      .vd-grid { grid-template-columns: 1fr; }
+      .prop-areas { grid-template-columns: 1fr 1fr; }
+      .positioning { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .page-hero-content, .breadcrumb, .content-wrap { padding-left: 20px; padding-right: 20px; }
+      .manifesto { padding: 36px 24px; }
+      .proposals { padding: 36px 20px; }
+      .prop-areas { grid-template-columns: 1fr; }
+      .cta-box { padding: 40px 24px; }
+      .footer-grid { grid-template-columns: 1fr; gap: 28px; padding: 0 20px 36px; }
+      footer { padding: 56px 0 28px; }
+      .footer-bottom { flex-direction: column; gap: 6px; text-align: center; padding: 0 20px; }
+      .page-nav { padding: 32px 20px; flex-direction: column; gap: 16px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-brand">
+    <img src="EN.png" alt="EN">
+    <div class="nav-brand-text">
+      Encuentro Nacional
+      <span>Partido Político · Paraguay</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="historia.html">Historia</a></li>
+    <li><a href="liderazgo.html">Liderazgo</a></li>
+    <li><a href="vision.html" class="active">Visión</a></li>
+    <li><a href="index.html#alianzas">Alianzas</a></li>
+    <li><a href="index.html#contacto" class="nav-cta">Contacto</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <div class="hero-accent-1"></div>
+  <div class="hero-accent-2"></div>
+  <div class="hero-accent-3"></div>
+  <div class="hero-accent-4"></div>
+  <div class="page-hero-content">
+    <div class="page-hero-eyebrow">Ideología · Valores · Propuestas</div>
+    <h1 class="page-hero-title">Una <em>visión</em> clara para<br>el Paraguay del futuro</h1>
+    <p class="page-hero-desc">Centro-izquierda, democracia social, progresismo. El Partido Encuentro Nacional tiene un proyecto político coherente, construido sobre principios sólidos y una visión de largo plazo para Paraguay.</p>
+  </div>
+</div>
+
+<div class="breadcrumb">
+  <a href="index.html">Inicio</a>
+  <span style="color:#CBD5E1">›</span>
+  <span style="color: var(--black);">Visión e Ideología</span>
+</div>
+
+<div class="content-wrap">
+
+  <!-- MANIFESTO -->
+  <div class="manifesto fade-up">
+    <p class="manifesto-quote">
+      "Posibilitar la participación de la ciudadanía en la construcción de una sociedad <em>libre, justa y fraterna</em>, mediante ciudadanos capaces y honestos que refunden la República con justicia social."
+    </p>
+    <p class="manifesto-attr">— Declaración de Principios · Partido Encuentro Nacional</p>
+    <div class="manifesto-tags">
+      <span class="m-tag">Democracia Social</span>
+      <span class="m-tag">Centro-izquierda</span>
+      <span class="m-tag">Progresismo</span>
+      <span class="m-tag">Justicia Social</span>
+      <span class="m-tag">Estado de Derecho</span>
+      <span class="m-tag">Participación Ciudadana</span>
+    </div>
+  </div>
+
+  <!-- IDEOLOGY -->
+  <div class="ideology-grid">
+    <div class="ideo-main fade-up">
+      <p class="eyebrow">Posicionamiento Político</p>
+      <h2>Centro-izquierda con raíces democráticas</h2>
+      <p>El Partido Encuentro Nacional se identifica como una fuerza de <strong>centro-izquierda</strong> dentro del espectro político paraguayo. Desde su fundación en 1992, el partido abrazó los principios de la <strong>democracia social</strong> y el <strong>progresismo</strong>, sin dogmatismos ideológicos rígidos.</p>
+      <p>Esta posición implica creer en el <strong>Estado como garante de derechos</strong>, en la importancia de los servicios públicos de calidad, en la reducción de desigualdades y en una economía que sirva a las mayorías. Pero también implica un firme compromiso con la democracia representativa, las libertades individuales y el Estado de derecho.</p>
+      <p>El PEN rechaza los extremos: no es ni un partido de derecha neoliberal ni un movimiento de izquierda radical. Es una <strong>fuerza de transformación democrática</strong> que busca cambiar Paraguay desde adentro del sistema, con legitimidad popular y propuestas concretas.</p>
+    </div>
+    <div class="fade-up delay-2">
+      <div class="ideo-spectrum">
+        <h4>Espectro Político</h4>
+        <div style="margin-bottom: 6px; font-size:0.75rem; font-weight:600; color: var(--orange);">Posición del PEN: Centro-izquierda</div>
+        <div class="spectrum-bar">
+          <div class="spectrum-marker"></div>
+        </div>
+        <div class="spectrum-labels">
+          <span>Izquierda</span>
+          <span>Centro-Izq.</span>
+          <span>Centro</span>
+          <span>Centro-Der.</span>
+          <span>Derecha</span>
+        </div>
+        <p style="font-size:0.84rem; color:var(--gray); line-height:1.65; margin-bottom:20px;">El PEN se ubica en el centro-izquierda del espectro político paraguayo, comprometido con la justicia social dentro del marco democrático y republicano.</p>
+        <div class="ideo-badges">
+          <span class="ideo-badge">Democracia Social</span>
+          <span class="ideo-badge">Progresismo</span>
+          <span class="ideo-badge dark">Centro-Izquierda</span>
+          <span class="ideo-badge">Pluralismo</span>
+          <span class="ideo-badge">Republicanismo</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VALUES DEEP DIVE -->
+  <div class="values-deep">
+    <div class="fade-up">
+      <p class="eyebrow">Principios Fundamentales</p>
+      <h2 class="heading">Lo que creemos y defendemos</h2>
+      <p class="subtext">Los valores del PEN no son palabras vacías: son compromisos concretos que guían cada decisión política, cada alianza y cada propuesta del partido.</p>
+    </div>
+    <div class="vd-grid">
+      <div class="vd-card fade-up">
+        <div class="vd-num">01</div>
+        <div>
+          <h3 class="vd-title">Construcción del Estado Social y Democrático de Derecho</h3>
+          <p class="vd-text">El objetivo central del PEN es construir un Estado que garantice derechos básicos a todos sus ciudadanos —salud, educación, seguridad, vivienda— sin abandonar los principios democráticos y republicanos. Un Estado fuerte donde sea necesario, discreto donde corresponda.</p>
+        </div>
+      </div>
+      <div class="vd-card fade-up delay-1">
+        <div class="vd-num">02</div>
+        <div>
+          <h3 class="vd-title">Justicia Social como Principio Rector</h3>
+          <p class="vd-text">La reducción de la desigualdad no es un eslogan: es el norte del PEN. Un Paraguay donde la riqueza esté mejor distribuida, donde la pobreza no sea un destino inevitable y donde el origen social no determine el futuro de cada ciudadano.</p>
+        </div>
+      </div>
+      <div class="vd-card fade-up delay-2">
+        <div class="vd-num">03</div>
+        <div>
+          <h3 class="vd-title">Participación Ciudadana Genuina</h3>
+          <p class="vd-text">La democracia no se agota en el voto cada cinco años. El PEN cree en una ciudadanía activa, informada y protagonista. Por eso promueve consultas populares, instancias de participación directa y una política que escuche antes de decidir.</p>
+        </div>
+      </div>
+      <div class="vd-card fade-up">
+        <div class="vd-num">04</div>
+        <div>
+          <h3 class="vd-title">Desarrollo Económico con Equidad</h3>
+          <p class="vd-text">El crecimiento económico es un medio, no un fin. El PEN propone políticas de desarrollo que combinen el dinamismo empresarial con la inversión social, el apoyo a la industria nacional con la apertura al comercio justo y la formalización del trabajo informal.</p>
+        </div>
+      </div>
+      <div class="vd-card fade-up delay-1">
+        <div class="vd-num">05</div>
+        <div>
+          <h3 class="vd-title">Progresismo Cultural y Social</h3>
+          <p class="vd-text">Paraguay es un país diverso y el PEN lo celebra. El partido defiende los derechos de todos los ciudadanos sin discriminación, apoya la cultura nacional en sus múltiples expresiones y cree en una educación pública, laica y de calidad como base del progreso.</p>
+        </div>
+      </div>
+      <div class="vd-card fade-up delay-2">
+        <div class="vd-num">06</div>
+        <div>
+          <h3 class="vd-title">Ética en la Función Pública</h3>
+          <p class="vd-text">La corrupción es el enemigo de la justicia social. El PEN nació con la convicción de que son necesarios "ciudadanos capaces y honestos que refunden la República". La transparencia y la rendición de cuentas no son opciones: son obligaciones.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROPOSALS -->
+  <div class="proposals fade-up">
+    <p class="eyebrow">Propuestas</p>
+    <h2>Ejes programáticos para un Paraguay mejor</h2>
+    <p class="proposals-desc">El PEN articula su visión en propuestas concretas para las principales áreas de la vida pública paraguaya, siempre guiadas por la justicia social y el bienestar ciudadano.</p>
+    <div class="prop-areas">
+      <div class="prop-area">
+        <div class="prop-icon">🏥</div>
+        <h3 class="prop-title">Salud y Bienestar</h3>
+        <ul class="prop-list">
+          <li>Fortalecimiento del sistema de salud público</li>
+          <li>Acceso universal a medicamentos esenciales</li>
+          <li>Expansión de la cobertura del IPS</li>
+          <li>Salud mental como derecho ciudadano</li>
+          <li>Infraestructura hospitalaria descentralizada</li>
+        </ul>
+      </div>
+      <div class="prop-area">
+        <div class="prop-icon">📚</div>
+        <h3 class="prop-title">Educación</h3>
+        <ul class="prop-list">
+          <li>Educación pública de calidad como prioridad</li>
+          <li>Aumento del presupuesto educativo</li>
+          <li>Formación docente y mejora salarial</li>
+          <li>Conectividad y tecnología en escuelas</li>
+          <li>Educación técnica y universitaria accesible</li>
+        </ul>
+      </div>
+      <div class="prop-area">
+        <div class="prop-icon">⚖️</div>
+        <h3 class="prop-title">Justicia e Instituciones</h3>
+        <ul class="prop-list">
+          <li>Independencia del Poder Judicial</li>
+          <li>Lucha frontal contra la corrupción</li>
+          <li>Reforma del Ministerio Público</li>
+          <li>Transparencia en el Estado</li>
+          <li>Protección de los derechos humanos</li>
+        </ul>
+      </div>
+      <div class="prop-area">
+        <div class="prop-icon">🌾</div>
+        <h3 class="prop-title">Economía y Trabajo</h3>
+        <ul class="prop-list">
+          <li>Formalización del empleo informal</li>
+          <li>Apoyo a la agricultura familiar</li>
+          <li>Política industrial para el valor agregado</li>
+          <li>Microcréditos para emprendedores</li>
+          <li>Equidad salarial y derechos laborales</li>
+        </ul>
+      </div>
+      <div class="prop-area">
+        <div class="prop-icon">🏘️</div>
+        <h3 class="prop-title">Desarrollo Social</h3>
+        <ul class="prop-list">
+          <li>Políticas de vivienda popular</li>
+          <li>Reducción de la pobreza extrema</li>
+          <li>Protección de la niñez y adolescencia</li>
+          <li>Igualdad de género en política y trabajo</li>
+          <li>Inclusión de comunidades indígenas</li>
+        </ul>
+      </div>
+      <div class="prop-area">
+        <div class="prop-icon">🌿</div>
+        <h3 class="prop-title">Medioambiente</h3>
+        <ul class="prop-list">
+          <li>Protección del bosque atlántico paraguayo</li>
+          <li>Regulación del uso de agroquímicos</li>
+          <li>Acceso al agua potable como derecho</li>
+          <li>Energías renovables y sostenibilidad</li>
+          <li>Ordenamiento territorial responsable</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- POSITIONING -->
+  <div>
+    <div class="fade-up" style="margin-bottom:40px;">
+      <p class="eyebrow">Posicionamiento</p>
+      <h2 class="heading">Lo que el PEN defiende y lo que rechaza</h2>
+    </div>
+    <div class="positioning fade-up">
+      <div class="pos-card light">
+        <h3 class="pos-title" style="color:var(--black);">El PEN defiende</h3>
+        <div class="pos-item">
+          <div class="check">✓</div>
+          <p class="pos-text">La democracia representativa como único sistema legítimo de gobierno</p>
+        </div>
+        <div class="pos-item">
+          <div class="check">✓</div>
+          <p class="pos-text">El Estado social garante de derechos básicos para todos los ciudadanos</p>
+        </div>
+        <div class="pos-item">
+          <div class="check">✓</div>
+          <p class="pos-text">La participación ciudadana activa en las decisiones públicas</p>
+        </div>
+        <div class="pos-item">
+          <div class="check">✓</div>
+          <p class="pos-text">La justicia social como principio rector de la política económica</p>
+        </div>
+        <div class="pos-item">
+          <div class="check">✓</div>
+          <p class="pos-text">La transparencia, la ética y la rendición de cuentas en el Estado</p>
+        </div>
+        <div class="pos-item">
+          <div class="check">✓</div>
+          <p class="pos-text">La construcción de alianzas amplias para el cambio democrático</p>
+        </div>
+      </div>
+      <div class="pos-card dark">
+        <h3 class="pos-title">El PEN rechaza</h3>
+        <div class="pos-item">
+          <div class="check" style="background:rgba(255,255,255,0.15);">✗</div>
+          <p class="pos-text">La corrupción y el clientelismo político en todas sus formas</p>
+        </div>
+        <div class="pos-item">
+          <div class="check" style="background:rgba(255,255,255,0.15);">✗</div>
+          <p class="pos-text">El autoritarismo y cualquier forma de gobierno no democrático</p>
+        </div>
+        <div class="pos-item">
+          <div class="check" style="background:rgba(255,255,255,0.15);">✗</div>
+          <p class="pos-text">Las políticas que profundizan la desigualdad y la exclusión social</p>
+        </div>
+        <div class="pos-item">
+          <div class="check" style="background:rgba(255,255,255,0.15);">✗</div>
+          <p class="pos-text">El bipartidismo cerrado que excluye a ciudadanos sin representación</p>
+        </div>
+        <div class="pos-item">
+          <div class="check" style="background:rgba(255,255,255,0.15);">✗</div>
+          <p class="pos-text">El clientelismo como forma de hacer política electoral</p>
+        </div>
+        <div class="pos-item">
+          <div class="check" style="background:rgba(255,255,255,0.15);">✗</div>
+          <p class="pos-text">La impunidad y la falta de transparencia en el ejercicio del poder</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-box fade-up">
+    <h2>Comparte esta visión</h2>
+    <p>Si creés en un Paraguay más justo, más democrático y más equitativo, el Partido Encuentro Nacional es tu espacio político. Sumáte al Encuentro de todos los paraguayos.</p>
+    <a href="index.html#contacto" class="btn btn-white">Contactar al partido</a>
+    <a href="historia.html" class="btn btn-ghost">Conocer la historia</a>
+  </div>
+
+</div>
+
+<div class="page-nav">
+  <a href="liderazgo.html">← Liderazgo del partido</a>
+  <a href="index.html">Volver al inicio →</a>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="EN.png" alt="Encuentro Nacional">
+      <p>Partido Encuentro Nacional de Paraguay. Construyendo un Estado social y democrático de derecho desde 1992.</p>
+    </div>
+    <div class="footer-col">
+      <h4>El Partido</h4>
+      <ul>
+        <li><a href="index.html#sobre">Quiénes Somos</a></li>
+        <li><a href="historia.html">Historia</a></li>
+        <li><a href="vision.html">Visión</a></li>
+        <li><a href="index.html#alianzas">Alianzas</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Ideología</h4>
+      <ul>
+        <li><a href="#manifesto">Declaración</a></li>
+        <li><a href="#ideologia">Posicionamiento</a></li>
+        <li><a href="#valores">Principios</a></li>
+        <li><a href="#propuestas">Propuestas</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contacto</h4>
+      <ul>
+        <li><a href="tel:+59521213528">+595 21 213 528</a></li>
+        <li><a href="index.html#contacto">Sede Asunción</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Partido Encuentro Nacional — Paraguay</span>
+    <span>Lun–Vie 07:00–19:00 · Sáb 08:00–12:00</span>
+  </div>
+</footer>
+
+<script>
+  var navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', function() { navbar.classList.toggle('scrolled', window.scrollY > 40); });
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-up').forEach(function(el) { observer.observe(el); });
+</script>
+</body>
+</html>
