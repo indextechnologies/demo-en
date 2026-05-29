@@ -149,30 +149,15 @@
       align-items: center;
       position: relative;
       overflow: hidden;
-      background: var(--white);
+      background: url('hero.jpeg') center/cover no-repeat;
     }
 
-    .hero-bg-circle {
+    #hero::before {
+      content: '';
       position: absolute;
-      right: -180px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 700px;
-      height: 700px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(232,98,10,0.07) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .hero-grid-lines {
-      position: absolute;
-      right: 60px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 480px;
-      height: 480px;
-      opacity: 0.055;
-      pointer-events: none;
+      inset: 0;
+      background: rgba(6, 3, 0, 0.60);
+      z-index: 1;
     }
 
     .hero-content {
@@ -210,7 +195,7 @@
       font-size: clamp(3.2rem, 6.5vw, 5.8rem);
       font-weight: 900;
       line-height: 1.04;
-      color: var(--black);
+      color: white;
       max-width: 740px;
       margin-bottom: 28px;
       letter-spacing: -0.02em;
@@ -223,7 +208,7 @@
 
     .hero-desc {
       font-size: 1.1rem;
-      color: var(--gray);
+      color: rgba(255,255,255,0.78);
       max-width: 520px;
       line-height: 1.72;
       margin-bottom: 48px;
@@ -269,12 +254,23 @@
       color: var(--orange);
     }
 
+    .hero-actions .btn-outline {
+      color: rgba(255,255,255,0.9);
+      border-color: rgba(255,255,255,0.4);
+    }
+
+    .hero-actions .btn-outline:hover {
+      border-color: white;
+      color: white;
+      background: rgba(255,255,255,0.1);
+    }
+
     .hero-stats {
       display: flex;
       gap: 52px;
       margin-top: 80px;
       padding-top: 48px;
-      border-top: 1px solid var(--border);
+      border-top: 1px solid rgba(255,255,255,0.15);
       flex-wrap: wrap;
     }
 
@@ -288,7 +284,7 @@
 
     .stat-label {
       font-size: 0.75rem;
-      color: var(--gray);
+      color: rgba(255,255,255,0.62);
       font-weight: 500;
       letter-spacing: 0.06em;
       text-transform: uppercase;
@@ -717,7 +713,7 @@
 
     /* ─── BANNER CTA ─── */
     #cta-banner {
-      background: linear-gradient(135deg, #E8620A 0%, #BF4800 100%);
+      background: linear-gradient(135deg, rgba(232,98,10,0.90) 0%, rgba(163,56,0,0.94) 100%), url('publico.jpeg') center/cover no-repeat;
       padding: 108px 56px;
       text-align: center;
     }
@@ -988,16 +984,6 @@
 
 <!-- HERO -->
 <section id="hero">
-  <div class="hero-bg-circle"></div>
-  <svg class="hero-grid-lines" viewBox="0 0 480 480" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="240" cy="240" r="200" stroke="#E8620A" stroke-width="1"/>
-    <circle cx="240" cy="240" r="140" stroke="#E8620A" stroke-width="1"/>
-    <circle cx="240" cy="240" r="80" stroke="#E8620A" stroke-width="1"/>
-    <line x1="40" y1="240" x2="440" y2="240" stroke="#E8620A" stroke-width="1"/>
-    <line x1="240" y1="40" x2="240" y2="440" stroke="#E8620A" stroke-width="1"/>
-    <line x1="98" y1="98" x2="382" y2="382" stroke="#E8620A" stroke-width="1"/>
-    <line x1="382" y1="98" x2="98" y2="382" stroke="#E8620A" stroke-width="1"/>
-  </svg>
   <div class="hero-content">
     <div class="hero-eyebrow">Partido Político · Paraguay · Desde 1992</div>
     <h1 class="hero-title">
@@ -1034,8 +1020,8 @@
 <!-- SOBRE -->
 <div class="section" id="sobre" style="display:grid; grid-template-columns:1fr 1fr; gap:88px; align-items:center; padding-top:108px; padding-bottom:108px; max-width:1200px; margin:0 auto;">
   <div class="fade-up">
-    <div class="about-card">
-      <img src="EN.png" alt="Encuentro Nacional">
+    <div class="about-card" style="background:none; padding:0;">
+      <img src="people.jpg" alt="Reunión del Partido Encuentro Nacional" style="width:100%; height:420px; object-fit:cover; display:block; border-radius:24px; filter:none;">
       <div class="about-badge">
         <div class="badge-year">1992</div>
         <div class="badge-label">Fundado el<br>25 de octubre</div>
@@ -1229,6 +1215,14 @@
         <h2 class="heading">Quienes construyeron el PEN</h2>
       </div>
       <p class="subtext fade-up delay-2">Líderes, fundadores y conductores que dieron forma al Partido Encuentro Nacional a lo largo de más de tres décadas de historia democrática.</p>
+    </div>
+    <div style="border-radius:20px; overflow:hidden; margin-bottom:40px; position:relative; height:300px;" class="fade-up">
+      <img src="peopleee.jpg" alt="Equipo del Partido Encuentro Nacional" style="width:100%; height:100%; object-fit:cover; object-position:top;">
+      <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 55%);"></div>
+      <div style="position:absolute; bottom:24px; left:28px;">
+        <p style="font-size:0.68rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:var(--orange); margin-bottom:6px;">Conducción Actual</p>
+        <p style="font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:700; color:white; line-height:1.3;">El equipo que construye el futuro del PEN</p>
+      </div>
     </div>
     <div class="leaders-grid">
       <div class="leader-card founder fade-up">
